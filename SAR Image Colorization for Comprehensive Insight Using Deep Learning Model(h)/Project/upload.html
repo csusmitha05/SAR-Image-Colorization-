@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload with Cloud Icon</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+
+        .upload-container {
+            width: 50%;
+            min-height: 300px;
+            border: 2px dashed #6c5ce7;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 40px 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .upload-container:hover {
+            transform: translateY(-5px);
+            border-color: #4834d4;
+        }
+
+        .cloud-icon {
+            width: 120px;
+            height: 80px;
+            background-color: #6c5ce7;
+            border-radius: 50px;
+            position: relative;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .cloud-icon:hover {
+            transform: scale(1.1);
+            background-color: #5b4ae0;
+        }
+
+        .cloud-icon::before {
+            content: '';
+            position: absolute;
+            background-color: #6c5ce7;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            top: -25px;
+            left: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cloud-icon:hover::before {
+            background-color: #5b4ae0;
+        }
+
+        .cloud-icon::after {
+            content: '';
+            position: absolute;
+            background-color: #6c5ce7;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            top: -35px;
+            right: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cloud-icon:hover::after {
+            background-color: #5b4ae0;
+        }
+
+        .arrow-icon {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 30px solid white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+        }
+
+        .arrow-body {
+            width: 10px;
+            height: 25px;
+            background-color: white;
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .upload-text {
+            text-align: center;
+            color: #333;
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+
+        .size-limit {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .popup.show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .colorize-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .colorize-btn:hover {
+            background-color: #5b4ae0;
+            transform: translateY(-3px);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .upload-container {
+                width: 90%;
+                min-height: 250px;
+                padding: 20px;
+            }
+
+            .cloud-icon {
+                width: 100px;
+                height: 70px;
+            }
+
+            .upload-text {
+                font-size: 1em;
+            }
+
+            .colorize-btn {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container" id="upload-area">
+        <div class="cloud-icon">
+            <div class="arrow-icon"></div>
+            <div class="arrow-body"></div>
+        </div>
+        <div class="upload-text">Drag and drop or Click here to upload Image.</div>
+        <div class="size-limit">Image size must be less than 5 MB</div>
+        <input type="file" id="file-input" accept="image/*">
+    </div>
+
+    <!-- Colorize Button -->
+    <button class="colorize-btn" id="colorize-btn">Colorize</button>
+
+    <!-- Popups -->
+    <div class="popup" id="upload-popup">
+        <h3>File Uploaded Successfully!</h3>
+        <p>Your file has been uploaded.</p>
+    </div>
+
+    <div class="popup" id="colorizing-popup">
+        <h3>Image is Being Colorized</h3>
+        <p>Please wait while the process completes...</p>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const uploadPopup = document.getElementById('upload-popup');
+        const colorizePopup = document.getElementById('colorizing-popup');
+        const colorizeBtn = document.getElementById('colorize-btn');
+
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', handleFile);
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#4834d4';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#6c5ce7';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#6c5ce7';
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        colorizeBtn.addEventListener('click', () => {
+            showPopup(colorizePopup);
+        });
+
+        function handleFile(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (!file.type.startsWith('image/')) {
+                    alert('Please upload an image file');
+                    return;
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB');
+                    return;
+                }
+                console.log('File selected:', file.name);
+                
+                // Simulate file upload
+                setTimeout(() => {
+                    showPopup(uploadPopup);
+                }, 1000);
+            }
+        }
+
+        function showPopup(popupElement) {
+            popupElement.classList.add('show');
+            setTimeout(() => {
+                popupElement.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
