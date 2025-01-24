@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forgot Password</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+    }
+
+    .background-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: url('images/fpw.png') no-repeat center center;
+      background-size: contain;
+    }
+
+    .container {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      z-index: 1;
+      margin-left: 40%;
+    }
+
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .back-to-login {
+      display: block;
+      margin-top: 15px;
+      color: #007bff;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+
+    .back-to-login:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-image"></div>
+  <div class="container">
+    <h1>Forgot Password</h1>
+    <p>Enter your email and we'll send you a link to reset your password.</p>
+    <input type="email" id="email" placeholder="Enter your email">
+    <p class="error-message" id="error">We cannot find your email.</p>
+    <button onclick="sendResetLink()">Send Reset Link</button>
+    <a href="login.html" class="back-to-login">Back to Login</a>
+  </div>
+
+  <script>
+    function sendResetLink() {
+      const emailInput = document.getElementById('email');
+      const errorMessage = document.getElementById('error');
+
+      // Simulate email validation (replace with your own logic)
+      if (emailInput.value !== "uixlibraries@gmail.com") {
+        errorMessage.style.display = 'block';
+      } else {
+        errorMessage.style.display = 'none';
+        alert("Mail sent successfully!");
+      }
+    }
+  </script>
+</body>
+</html>

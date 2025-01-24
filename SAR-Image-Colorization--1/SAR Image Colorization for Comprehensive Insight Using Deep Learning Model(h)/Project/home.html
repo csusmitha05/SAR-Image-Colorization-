@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAR Image Colorization</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="background">
+            <div class="overlay"></div>
+            <img src="sat.jpeg" alt="Earth" class="background-image">
+        </div>
+        <div class="content">
+            <h1>SAR IMAGE COLORIZATION USING DEEP LEARNING</h1>
+            <p>SAR image colorization is the process of transforming grayscale SAR images into vibrant, color-rich visuals.</p>
+        </div>
+        <div class="auth-buttons">
+            <button onclick="location.href='signup.html'">Sign Up</button>
+            <button onclick="location.href='login.html'">Log In</button>
+
+        </div>
+    </div>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyCl12UpIe-VqABPapQ8HqSqxYmGKhSm_2E",
+          authDomain: "sar-image-afb0d.firebaseapp.com",
+          projectId: "sar-image-afb0d",
+          storageBucket: "sar-image-afb0d.firebasestorage.app",
+          messagingSenderId: "464069377860",
+          appId: "1:464069377860:web:72bc542153d2e9a2fce111",
+          measurementId: "G-X9B49Q0B9H"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
+</body>
+</html>
