@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "SAR IMAGE COLORIZATION ",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
